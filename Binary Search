@@ -1,0 +1,204 @@
+import java.security.SecureRandom;
+import java.util.Arrays;
+public class BinaryLinearSearch {
+
+	private int [] randomArr ; //used to store all the elnemnt of an array
+	
+	
+	 /**
+     * Gets the randomly generated array.
+     * @return the random array.
+     */
+	
+	public int [] getRandomArr() {
+		return randomArr;
+	}
+	/**
+     * Sets the randomly generated array.
+     * 
+     * @param randomArr the array 
+     */
+	public void setRandomArr(int [] randomArr) {
+		this.randomArr = randomArr;
+	}
+	
+	 /**
+     * Generates an array of 32 random integers between 11 and 100
+     * and prints both the unsorted and sorted arrays.
+     */
+	public void generateRandomInts() {
+		SecureRandom SR = new SecureRandom();
+		setRandomArr(SR.ints(32,11,100).toArray()); //(32integer,between11,and100)
+		System.out.println("Array of randomly generated integers: ");
+		System.out.println("Unsorted array:"+Arrays.toString(getRandomArr()));
+		Arrays.sort(getRandomArr());//sort the Array.
+		System.out.println("Sorted array:" + Arrays.toString(getRandomArr()));
+	}
+///////////////////////////////////////////////////////////////////////////////////////
+	/**
+     * Prints the remaining elements in the array.
+     * @param array the array of integers.
+     * @param l the index zero.
+     * @param r the last index.
+     */
+	public void remainingElements(int array[],int l,int r)
+	{
+		for(int i=l;i<=r;i++)
+			System.out.print(array[i]+" ");
+		System.out.println();
+	} 
+
+///////////////////////////////////////////////////////////////////////////////////	
+	
+	/**
+    * make an iterative binary search on the array.
+    * 
+    * @param randomArr the array of integers.
+    * @param searchKey the value to search for.
+    * @return  the searchKey , otherwise -1.
+    */
+	public int iterativeBinarySearch(int [] randomArr,int searchkey) {
+		long startNano = System.nanoTime();
+        long startMillis = System.currentTimeMillis();
+		int firstInd=0, lastInd=randomArr.length-1;
+		
+		while(firstInd<=lastInd) {
+			remainingElements(randomArr, firstInd, lastInd);
+			 
+		     int midInd=((lastInd-firstInd)/2)+firstInd;//midInd update every time
+              //int minInd=array[midInd];
+			if(randomArr[midInd]==searchkey) {
+				System.out.println("number"+searchkey+ "found at index:"
+			                       +midInd+"Iterative Binary Search");
+				long endNano = System.nanoTime();
+	             long endMillis = System.currentTimeMillis();
+	             System.out.println("Time taken in nanoseconds: " + (endNano - startNano));
+	             System.out.println("Time taken in milliseconds: " + (endMillis - startMillis));
+				return midInd; 
+			}
+			if(randomArr[midInd]<searchkey) {
+				firstInd= midInd+1;
+			}else{
+				lastInd= midInd-1;
+			}
+		}	
+		System.out.println("number"+ searchkey +"was not found");
+		long endNano2 = System.nanoTime();
+        long endTimeMillis2 = System.currentTimeMillis();
+        System.out.println("Time taken in nanoseconds: " + (endNano2 - startNano));
+        System.out.println("Time taken in milliseconds: " + (endTimeMillis2 - startMillis));
+		return -1;
+			
+	}
+//////////////////////////////////////////////////////////////////////////////////	/
+	
+	/**
+     * make an iterative linear search on the array.
+     * 
+     * @param randomArr.
+     * @param searchKey.
+     * @return the searchKey, otherwise -1.
+     */
+	public int iterativeLinearSearch(int[] randomArr, int searchKey) {
+	    long startTimeNano = System.nanoTime();
+	    long startTimeMillis = System.currentTimeMillis();
+
+	    for (int i = 0; i < randomArr.length; i++) {
+	        if (randomArr[i] == searchKey) {
+	            System.out.println("number " + searchKey + " found at index " + i + ": Iterative Linear Search");
+	            long endTimeNano = System.nanoTime();
+	            long endTimeMillis = System.currentTimeMillis();
+	            System.out.println("Time taken in nanoseconds: " + (endTimeNano - startTimeNano));
+	            System.out.println("Time taken in milliseconds: " + (endTimeMillis - startTimeMillis));
+	            return i;
+	        }
+	    }
+	    System.out.println("number " + searchKey + " was not found");
+	    long endTimeNano = System.nanoTime();
+	    long endTimeMillis = System.currentTimeMillis();
+	    System.out.println("Time taken in nanoseconds: " + (endTimeNano - startTimeNano));
+	    System.out.println("Time taken in milliseconds: " + (endTimeMillis - startTimeMillis));
+	    return -1;
+	}
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+	
+	 /**
+     * make a recursive binary search on the array.
+     * 
+     * @param randomArr .
+     * @param firstInd .
+     * @param lastInd .
+     * @param searchKey .
+     * @return  searchKey, otherwise -1.
+     */
+	public int recursiveBinarySearch(int [] randomArr,int firstInd, int lastInd, int searchKey) {
+		long startNano = System.nanoTime();
+        long startMillis = System.currentTimeMillis();
+	    if (firstInd <= lastInd) {
+	        int midInd = ((firstInd + lastInd)/ 2); //different formula than the itrativve binary search
+
+	    	remainingElements(randomArr, firstInd, lastInd);
+	        if (randomArr[midInd] == searchKey) {
+	            System.out.println("number " + searchKey + " found at index :"
+	              + midInd + ": Recursive Binary Search");
+	            long endNano = System.nanoTime();
+	             long endMillis = System.currentTimeMillis();
+	             System.out.println("Time taken in nanoseconds: " + (endNano - startNano));
+	             System.out.println("Time taken in milliseconds: " + (endMillis - startMillis));
+	            
+	            return midInd;
+	        }
+	        if (randomArr[midInd] < searchKey) {
+	            return recursiveBinarySearch(randomArr, midInd + 1, lastInd, searchKey);//calling the method itself
+	        } else {
+	            return recursiveBinarySearch(randomArr, firstInd, midInd - 1, searchKey);//calling the method itself
+	        }
+	    }
+	    
+	    
+	    System.out.println("number" + searchKey + "was not found");
+	    long endNano = System.nanoTime();
+        long endMillis = System.currentTimeMillis();
+        System.out.println("Time taken in nanoseconds: " + (endNano - startNano));
+        System.out.println("Time taken in milliseconds: " + (endMillis - startMillis));
+	    return -1;
+	}
+			
+/////////////////////////////////////////////////////////////////////////////////////\
+
+	
+	 /**
+     * make a recursive linear search on the array.
+     * 
+     * @param randomArr .
+     * @param arraySize .
+     * @param searchKey .
+     * @return  searchKey, otherwise -1.
+     */
+	
+	public int recursiveLinearSearch(int[] randomArr, int arraySize, int searchKey) {
+	    long startTimeNano = System.nanoTime();
+	    long startTimeMillis = System.currentTimeMillis();
+	    if (arraySize == 0) {
+	        System.out.println("number " + searchKey + " was not found");
+	        long endTimeNano = System.nanoTime();
+	        long endTimeMillis = System.currentTimeMillis();
+	        System.out.println("Time taken in nanoseconds: " + (endTimeNano - startTimeNano));
+	        System.out.println("Time taken in milliseconds: " + (endTimeMillis - startTimeMillis));
+	        return -1;
+	    }
+	if (randomArr[arraySize - 1] == searchKey) {
+	        System.out.println("number " + searchKey + " found at index " + (arraySize - 1) + ": Recursive Linear Search");
+	        long endTimeNano = System.nanoTime();
+	        long endTimeMillis = System.currentTimeMillis();
+	        System.out.println("Time taken in nanoseconds: " + (endTimeNano - startTimeNano));
+	        System.out.println("Time taken in milliseconds: " + (endTimeMillis - startTimeMillis));
+	        return arraySize - 1;
+	    }
+	    return recursiveLinearSearch(randomArr, arraySize - 1, searchKey);
+	}
+}
