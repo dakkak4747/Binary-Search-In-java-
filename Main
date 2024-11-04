@@ -1,0 +1,62 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Lab3BinLinSearchTest {
+
+	
+	/**
+     * The main method to run the whole program.
+     * contains a menu for the user ,
+     * performing searches in the array elements{binary,linear}, handle exception, and exit the loop.
+     * @param args.
+     */
+	
+	
+	
+	
+    public static void main(String[] args) {
+        BinaryLinearSearch BLS = new BinaryLinearSearch();
+        Scanner scan1 = new Scanner(System.in);
+        boolean trigger = false;
+
+        
+            while (!trigger) {
+            	try {
+                System.out.println("Select your option in the menu below");
+                System.out.println("1. Initialize and populate an array of 32 random integers.");
+                System.out.println("2. Perform a recursive binary and linear search.");
+                System.out.println("3. Perform iterative binary and linear search.");
+                System.out.println("4. Exit.");
+                System.out.println(">");
+                int choose = scan1.nextInt();
+
+                if (choose == 1) {
+                    BLS.generateRandomInts();
+                } else if (choose == 2) {
+                    System.out.print("Please enter an integer value to search: ");
+                    int integer = scan1.nextInt();
+                    BLS.recursiveBinarySearch(BLS.getRandomArr(), 0, BLS.getRandomArr().length - 1, integer);
+                    BLS.recursiveLinearSearch(BLS.getRandomArr(), BLS.getRandomArr().length, integer);
+                } else if (choose == 3) {
+                    System.out.print("Please enter an integer value to search: ");
+                    int integer1 = scan1.nextInt();
+                    BLS.iterativeBinarySearch(BLS.getRandomArr(), integer1);
+                    BLS.iterativeLinearSearch(BLS.getRandomArr(), integer1);
+                } else if (choose == 4) {
+                    System.out.print("...exiting...\n");
+                    trigger = true;
+                    break;
+                } else {
+                    System.out.println("Please choose the option 1 to 4");
+                }
+            }catch (InputMismatchException e) {
+          System.out.println("*****Input Mismatch Exception*****");
+        scan1.next();
+            }
+    }
+    
+           
+
+        scan1.close();
+    }
+}
